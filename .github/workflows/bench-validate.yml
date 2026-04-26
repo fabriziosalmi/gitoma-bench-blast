@@ -1,0 +1,79 @@
+name: bench-validate
+
+# Validates the bench corpus: hub function has the expected
+# number of callers (so the bench actually exercises BLAST RADIUS),
+# and the dead helpers really are dead. No LLM here — just AST
+# parsing + caller-count assertion.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-corpus:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install pytest
+        run: pip install pytest
+
+      - name: Run smoke tests
+        run: pytest tests/ -q
+
+      - name: Assert caller count for core.hub.process
+        run: |
+          python3 - <<'EOF'
+          """Count cross-file callers of core.hub.process via grep —
+          cheap, no CPG-lite dep needed in CI. The bench's whole point
+          is "hot symbol with many callers"; if a future edit drops
+          the count below 25, this job fails — protects against
+          accidental thinning.
+          """
+          import subprocess, sys
+          # Count lines matching `process(` in callers/*.py
+          out = subprocess.run(
+              ["grep", "-rh", "process(", "callers/"],
+              capture_output=True, text=True, check=False,
+          )
+          calls = [l for l in out.stdout.splitlines() if "process(" in l and "def " not in l]
+          n = len(calls)
+          print(f"Cross-file callers of process(): {n}")
+          assert n >= 25, (
+              f"BENCH DRIFT: process() has only {n} callers, expected ≥25. "
+              f"The bench's whole signal hinges on this being a hub."
+          )
+          print("✓ hub caller count above threshold — bench corpus intact")
+          EOF
+
+      - name: Assert dead helpers stay dead
+        run: |
+          python3 - <<'EOF'
+          import subprocess
+          dead = ["unused_one", "unused_two", "unused_three"]
+          for name in dead:
+              out = subprocess.run(
+                  ["grep", "-r", name + "(", "core/", "utils/", "callers/", "tests/"],
+                  capture_output=True, text=True, check=False,
+              )
+              non_def_lines = [
+                  l for l in out.stdout.splitlines()
+                  if name + "(" in l and "def " not in l
+              ]
+              assert not non_def_lines, (
+                  f"BENCH DRIFT: {name} now has callers — expected 0. "
+                  f"Dead helpers must stay dead for the negative-control signal."
+              )
+          print("✓ all dead helpers confirmed dead — negative control intact")
+          EOF
