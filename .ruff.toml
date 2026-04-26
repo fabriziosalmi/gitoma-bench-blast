@@ -1,0 +1,4 @@
+[tool.ruff]
+check = true
+ignore = ["D"]
+select = ["A", "B", "C", "E", "F", "I"]
