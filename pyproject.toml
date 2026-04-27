@@ -1,6 +1,12 @@
 [tool.pytest.ini_options]
 pythonpath = ["."]
 
-[tool.ruff] 
+[tool.ruff]
 ignore = ["E501"]
 select = ["A", "B", "C", "D", "E", "F", "I"]
+
+[tool.mypy]
+check_untyped_calls = true
+ignore_missing_imports = true
+show_error_codes = true
+warn_unused_configs = true
