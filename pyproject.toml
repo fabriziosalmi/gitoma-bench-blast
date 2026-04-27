@@ -5,3 +5,8 @@ ignore = []
 
 [tool.ruff.lint]
 fixable = true
+
+[tool.mypy]
+python_version = "3.10"
+warn_unused_ignores = true
+strict = true
