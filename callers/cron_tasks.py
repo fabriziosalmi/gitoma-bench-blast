@@ -1,25 +1,16 @@
-"""Cron-scheduled task handlers."""
-
 from __future__ import annotations
 
 from core.hub import process
 
 
-def hourly() -> dict:
-    return process({"cron": "hourly"})
+def daily_report_generator() -> dict:
+    """Handles the task of generating the daily operational report."""
+    return process({"job": "generate_daily_report"})
 
+def weekly_maintenance_scheduler() -> dict:
+    """Handles the task of scheduling weekly system maintenance."""
+    return process({"job": "schedule_weekly_maintenance"})
 
-def daily() -> dict:
-    return process({"cron": "daily"})
-
-
-def weekly() -> dict:
-    return process({"cron": "weekly"})
-
-
-def monthly() -> dict:
-    return process({"cron": "monthly"})
-
-
-def yearly() -> dict:
-    return process({"cron": "yearly"})
+def monthly_backup_initiator() -> dict:
+    """Handles the task of initiating the monthly data backup."""
+    return process({"job": "initiate_monthly_backup"})
