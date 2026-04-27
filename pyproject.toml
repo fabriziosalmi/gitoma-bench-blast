@@ -1,2 +1,6 @@
 [tool.pytest.ini_options]
 pythonpath = ["."]
+
+[tool.ruff] 
+ignore = ["E501"]
+select = ["A", "B", "C", "D", "E", "F", "I"]
