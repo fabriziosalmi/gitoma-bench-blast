@@ -1,3 +1,8 @@
+[tool.coverage]
+lang = "python"
+include = ["tests/*"]
+exclude = ["venv/*"]
+
 [tool.mypy]
 include = "{}"
 ignore_missing_imports = true
