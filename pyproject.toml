@@ -1,4 +1,4 @@
-[tool.ruff]
-line-length = 88
-select = ["E", "F"]
-add-trailing-whitespace = true
+[tool.mypy]
+include = "{}"
+ignore_missing_imports = true
+pretty = true
