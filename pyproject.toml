@@ -10,3 +10,21 @@ check_untyped_calls = true
 ignore_missing_imports = true
 show_error_codes = true
 warn_unused_configs = true
+
+[tool.poetry]
+name = "gitoma-bench-blast"
+version = "0.1.0"
+description = "Benchmarking tool for Gitoma projects"
+authors = ["Your Name <you@example.com>"]
+
+[tool.poetry.dependencies]
+python = "3.10"
+pytest = { version = "7.4.0", python = "3.10" }
+
+[tool.poetry.dev-dependencies]
+ruff = { version = "0.13.2", python = "3.10" }
+mypy = { version = "1.5.1", python = "3.10" }
+
+[build-system]
+requires = ["poetry-core>=2.13.0"]
+build-backend = "poetry.core.masonry.api"
