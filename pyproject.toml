@@ -1,2 +1,4 @@
-[tool.pytest.ini_options]
-pythonpath = ["."]
+[tool.ruff]
+line-length = 88
+select = ["E", "F"]
+add-trailing-whitespace = true
