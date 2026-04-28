@@ -8,3 +8,6 @@ fixable = true
 
 [tool.mypy]
 ignore_missing_imports = true
+
+[tool.coverage]
+paths = ["."]
