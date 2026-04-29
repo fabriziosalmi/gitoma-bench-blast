@@ -1,2 +1,6 @@
-[tool.pytest.ini_options]
+[tool.pytest]
 pythonpath = ["."]
+
+[tool.coverage]
+ignore = [".venv", "tests"]
+warn_on_warnings = true
