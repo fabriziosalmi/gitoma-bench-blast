@@ -8,3 +8,7 @@ pythonpath = ["."]
 
 [tool.ruff]
 line-length = 88
+
+[tool.coverage]
+ignore_patterns = [".venv/", "build/", "dist/"]
+run_if_covered = true
