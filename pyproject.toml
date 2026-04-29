@@ -5,3 +5,7 @@ ignore = []
 
 [tool.ruff.lint]
 fixable = true
+
+[tool.mypy]
+warn_unused_ignores = true
+strict = true
