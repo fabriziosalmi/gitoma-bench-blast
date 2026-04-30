@@ -8,6 +8,8 @@ def format_value(value: object) -> str:
     """Stringify a value with a stable representation."""
     if value is None:
         return "<none>"
+    if isinstance(value, bool):
+        return str(value).lower()
     if isinstance(value, (int, float)):
         return f"{value:g}"
     return str(value)
