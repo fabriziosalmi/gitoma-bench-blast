@@ -23,3 +23,8 @@ def test_format_value_int() -> None:
 
 def test_format_value_none() -> None:
     assert format_value(None) == "<none>"
+
+
+def test_process_empty_dict() -> None:
+    result = process({})
+    assert result == {"ok": True, "size": 0}
